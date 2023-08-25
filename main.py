@@ -99,13 +99,13 @@ async def txt_msg(message):
         if msint[0][-1] is None:
             ...
         elif msint[0][-1] == 'code':
-            codeInfo = await database.select_value_by_key('codes', 'code', message.text)
-            if not len(codeInfo):
-                await database.update_values('users', message.from_user.id, {'role': "newbie"})
-                await bot.send_message(message.chat.id, txtMenu.mainMenu(), reply_markup=markup.mainMenu(role='newbie'))
-            else:
-                await database.update_values('users', message.from_user.id, {'role': "veteran"})
-                await bot.send_message(message.chat.id, txtMenu.mainMenu(), reply_markup=markup.mainMenu(role='veteran'))
+            # codeInfo = await database.select_value_by_key('codes', 'code', message.text)
+            # if not len(codeInfo):
+            #     await database.update_values('users', message.from_user.id, {'role': "newbie"})
+            #     await bot.send_message(message.chat.id, txtMenu.mainMenu(), reply_markup=markup.mainMenu(role='newbie'))
+            # else:
+            await database.update_values('users', message.from_user.id, {'role': "veteran", 'code': message.text})
+            await bot.send_message(message.chat.id, txtMenu.mainMenu(), reply_markup=markup.mainMenu(role='veteran'))
         elif msint[0][-1] == 'new_doc':
             await database.insert_doc(message.text)
             docID = await database.select_all_values('documents')
