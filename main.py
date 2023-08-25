@@ -10,7 +10,7 @@ import dateManager as dManager
 import googleCalendarApi as gcalAPI
 
 
-bot = AsyncTeleBot('5385126708:AAHLVLLs708YePNRDYvk6dswfd0v-qkMG84')  # config.token
+bot = AsyncTeleBot(config.token)  # '5385126708:AAHLVLLs708YePNRDYvk6dswfd0v-qkMG84'
 
 
 # TXT TEMPLATES
