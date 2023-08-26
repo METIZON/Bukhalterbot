@@ -64,3 +64,13 @@ class Message(LangModel):
         '''
 
         return text
+
+    def organizeTiming(self, scall):
+        text = f'''
+Вы выбрали дату:
+{scall[4]}.{scall[5]}.{scall[6]} {scall[2]}-{scall[3]}
+
+✅ Подтвердить?
+        '''
+
+        return text

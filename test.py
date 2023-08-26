@@ -116,9 +116,22 @@
 
 # target_date = datetime.date('2024', '2', '25')
 
-a = [[1], [2]]
-b = [[3], [4]]
+# a = [[1], [2]]
+# b = [[3], [4]]
 
-b += a
+# b += a
 
-print(b)
+# print(b)
+
+import requests
+
+url = 'https://api.monobank.ua/personal/client-info'
+
+headers = {
+    'X-Token': "ulOHtlSM9Fdjybk5MlD_-kujufLCx8i-Ay_aPYlQ-A24"
+}
+
+print(requests.get(url, headers=headers).text)
+
+# {"token": "ya29.a0AfB_byByMe0JB5pPAOQ4xORTbwO6L82JAKiAR07AnNvZ2XCI_cag2fLTZm4EdrWgK3WtlJNewKWmYP8YnNOlFp_uE1TQkk1wAPXPZJ3oTfTQDFzLS2FmENzJ8Sgy3pPZ7aCI4xOd7gjxkMj1vp4S0-EPRGN71DpNpppSAfeCuQaCgYKAZoSARISFQHsvYlsu28VQmysf6DOeXO6WyuvZA0177", "refresh_token": "1//0ckox5gdOabWOCgYIARAAGAwSNwF-L9Irog5_XJc71QIE-pVCROCfN4mpZBUJwl7thQIijbX3WjQVz4u8WAeLWmOMjmdjZ1L5hkg", "token_uri": "https://oauth2.googleapis.com/token", "client_id": "82361057406-3older3jikdoam44pk266hduqbmqeg2j.apps.googleusercontent.com", "client_secret": "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", "scopes": ["https://www.googleapis.com/auth/calendar"], "expiry": "2023-08-26T19:33:33.196964Z"}
+# {"token": "ya29.a0AfB_byAUpA-cQz09wBYaPYqVvNZ320rVRs3skBa47-b2RNGviCKde6la2VAivztEcJGiFanGROHwo5V5CbolclVeOQFd51nJQ8CraJTOBtAvW6JltY0qriRv9gXCylOiGOi76M9aReSLQQn2VEoXJwFMQS3OVjAh1ZUt2K3R1AaCgYKAVASARISFQHsvYlsRlllI4uOSHI1CIGfnpy96w0177", "refresh_token": "1//0ckox5gdOabWOCgYIARAAGAwSNwF-L9Irog5_XJc71QIE-pVCROCfN4mpZBUJwl7thQIijbX3WjQVz4u8WAeLWmOMjmdjZ1L5hkg", "token_uri": "https://oauth2.googleapis.com/token", "client_id": "82361057406-3older3jikdoam44pk266hduqbmqeg2j.apps.googleusercontent.com", "client_secret": "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", "scopes": ["https://www.googleapis.com/auth/calendar"], "expiry": "2023-08-26T20:16:24.060196Z"}

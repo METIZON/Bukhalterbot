@@ -197,8 +197,10 @@ async def query_handler(call):
             elif scall[1] == 'acceptDec':
                 docInfo = await database.select_value_by_key('documents', 'id', scall[2])
                 cur_time = datetime.datetime.now()
+                if cur_time.hour > 18:
+                    cur_time = cur_time + datetime.timedelta(days=1)
                 target_date = datetime.date(cur_time.year, cur_time.month, cur_time.day)
-                if docInfo[0][3] == 'ZUS':
+                if docInfo[0][3] == 'ZUS' or docInfo[0][3] == 'employer':
                     calendarID = config.ZUS_calendar
                 else:
                     calendarID = config.BUHGALTERY_calendar
@@ -245,6 +247,24 @@ async def query_handler(call):
                     hour_set = gCalendar.extract_hours(result_periods)
                     await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                                 text='Выберите примерный час для записи', reply_markup=markup.chooseFreeHour(hoursSet=hour_set, user='veteran', mode=scall[-1], year=int(scall[2]), month=int(scall[3]), day=int(scall[4])))
+                elif scall[-1] == 'addFamZus':
+                    free_slots = gCalendar.get_free_time_slots(config.ZUS_calendar, target_date)
+                    result_periods = gCalendar.save_10min_periods(free_slots)
+                    hour_set = gCalendar.extract_hours(result_periods)
+                    await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                text='Выберите примерный час для записи', reply_markup=markup.chooseFreeHour(hoursSet=hour_set, user='veteran', mode=scall[-1], year=int(scall[2]), month=int(scall[3]), day=int(scall[4])))
+                elif scall[-1] == 'askKadrovik':
+                    free_slots = gCalendar.get_free_time_slots(config.ZUS_calendar, target_date)
+                    result_periods = gCalendar.save_10min_periods(free_slots)
+                    hour_set = gCalendar.extract_hours(result_periods)
+                    await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                text='Выберите примерный час для записи', reply_markup=markup.chooseFreeHour(hoursSet=hour_set, user='veteran', mode=scall[-1], year=int(scall[2]), month=int(scall[3]), day=int(scall[4])))
+                elif scall[-1] == 'taxMessage':
+                    free_slots = gCalendar.get_free_time_slots(config.ZUS_calendar, target_date)
+                    result_periods = gCalendar.save_10min_periods(free_slots)
+                    hour_set = gCalendar.extract_hours(result_periods)
+                    await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                text='Выберите примерный час для записи', reply_markup=markup.chooseFreeHour(hoursSet=hour_set, user='veteran', mode=scall[-1], year=int(scall[2]), month=int(scall[3]), day=int(scall[4])))
             elif scall[1] == 'showHour':
                 target_date = datetime.date(int(scall[3]), int(scall[4]), int(scall[5]))
                 if scall[-1] == 'consultation':
@@ -265,7 +285,28 @@ async def query_handler(call):
                     free_per = gCalendar.get_time_periods_by_hour(int(scall[2]), result_periods)
                     await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                                 text='Выберите свободный промежуток времени:', reply_markup=markup.selectTimePeriod(periodsArr=free_per, user='veteran', mode=scall[-1], year=int(scall[3]), month=int(scall[4]), day=int(scall[5])))
+                elif scall[-1] == 'addFamZus':
+                    free_slots = gCalendar.get_free_time_slots(config.ZUS_calendar, target_date)
+                    result_periods = gCalendar.save_10min_periods(free_slots)
+                    free_per = gCalendar.get_time_periods_by_hour(int(scall[2]), result_periods)
+                    await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                text='Выберите свободный промежуток времени:', reply_markup=markup.selectTimePeriod(periodsArr=free_per, user='veteran', mode=scall[-1], year=int(scall[3]), month=int(scall[4]), day=int(scall[5])))
+                elif scall[-1] == 'askKadrovik':
+                    free_slots = gCalendar.get_free_time_slots(config.ZUS_calendar, target_date)
+                    result_periods = gCalendar.save_10min_periods(free_slots)
+                    free_per = gCalendar.get_time_periods_by_hour(int(scall[2]), result_periods)
+                    await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                text='Выберите свободный промежуток времени:', reply_markup=markup.selectTimePeriod(periodsArr=free_per, user='veteran', mode=scall[-1], year=int(scall[3]), month=int(scall[4]), day=int(scall[5])))
+                elif scall[-1] == 'taxMessage':
+                    free_slots = gCalendar.get_free_time_slots(config.ZUS_calendar, target_date)
+                    result_periods = gCalendar.save_10min_periods(free_slots)
+                    free_per = gCalendar.get_time_periods_by_hour(int(scall[2]), result_periods)
+                    await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                text='Выберите свободный промежуток времени:', reply_markup=markup.selectTimePeriod(periodsArr=free_per, user='veteran', mode=scall[-1], year=int(scall[3]), month=int(scall[4]), day=int(scall[5])))
             elif scall[1] == 'selectPeriod':
+                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                            text=txtMenu.organizeTiming(scall), reply_markup=markup.acceptTiming(scall))
+            elif scall[1] == 'accept':
                 if scall[-1] == 'consultation':
                     try:
                         # Create a new event
@@ -317,6 +358,57 @@ async def query_handler(call):
                             await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
                     except Exception:
                         await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
+                elif scall[-1] == 'addFamZus':
+                    try:
+                        # Create a new event
+                        userInfo = await database.select_values('users', call.from_user.id)
+                        new_event = {
+                            'summary': f'{userInfo[0][4]} ДОБАВИТЬ СЕМЬЮ В ЗУС',
+                            'start': {'dateTime': f'{scall[4]}-{scall[5]}-{scall[6]}T{scall[2]}', 'timeZone': 'UTC+2'},
+                            'end': {'dateTime': f'{scall[4]}-{scall[5]}-{scall[6]}T{scall[3]}', 'timeZone': 'UTC+2'}
+                        }
+                        created_event = gCalendar.create_event(new_event, config.ZUS_calendar)
+                        if created_event:
+                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                        else:
+                            await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
+                    except Exception:
+                        await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
+                elif scall[-1] == 'askKadrovik':
+                    try:
+                        # Create a new event
+                        userInfo = await database.select_values('users', call.from_user.id)
+                        new_event = {
+                            'summary': f'{userInfo[0][4]} ЗАДАЙ ВОПРОС КАДРОВИКУ',
+                            'start': {'dateTime': f'{scall[4]}-{scall[5]}-{scall[6]}T{scall[2]}', 'timeZone': 'UTC+2'},
+                            'end': {'dateTime': f'{scall[4]}-{scall[5]}-{scall[6]}T{scall[3]}', 'timeZone': 'UTC+2'}
+                        }
+                        created_event = gCalendar.create_event(new_event, config.ZUS_calendar)
+                        if created_event:
+                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                        else:
+                            await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
+                    except Exception:
+                        await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
+                elif scall[-1] == 'taxMessage':
+                    try:
+                        # Create a new event
+                        userInfo = await database.select_values('users', call.from_user.id)
+                        new_event = {
+                            'summary': f'{userInfo[0][4]} ПИСЬМО С НАЛОГОВОЙ',
+                            'start': {'dateTime': f'{scall[4]}-{scall[5]}-{scall[6]}T{scall[2]}', 'timeZone': 'UTC+2'},
+                            'end': {'dateTime': f'{scall[4]}-{scall[5]}-{scall[6]}T{scall[3]}', 'timeZone': 'UTC+2'}
+                        }
+                        created_event = gCalendar.create_event(new_event, config.ZUS_calendar)
+                        if created_event:
+                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                        else:
+                            await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
+                    except Exception:
+                        await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
             elif scall[1] == 'changeRecords':
                 cur_time = datetime.datetime.now()
                 await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
@@ -325,6 +417,30 @@ async def query_handler(call):
                 cur_time = datetime.datetime.now()
                 await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                             text='Выберите дату', reply_markup=markup.selectDate(year=cur_time.year, month=cur_time.month, day=cur_time.day, user='veteran', mode='registryDeals'))
+            elif scall[1] == 'hireEmployee':
+                docList = await database.select_value_by_key('documents', 'docType', 'employer')
+                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                            text='Выберите тип документов', reply_markup=markup.showEmp(docList=docList, page=0))
+            elif scall[1] == 'showEmp':
+                decList = await database.select_value_by_key('documents', 'id', scall[2])
+                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                            text=txtMenu.showDec(decList[0]), reply_markup=markup.empMenu(scall[2], int(scall[3])))
+            elif scall[1] == 'showEmpPage':
+                decList = await database.select_value_by_key('documents', 'docType', 'employer')
+                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                            text='Выберите тип документов', reply_markup=markup.showEmp(docList=docList, page=int(scall[2])))
+            elif scall[1] == 'addFamZus':
+                cur_time = datetime.datetime.now()
+                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                            text='Выберите дату', reply_markup=markup.selectDate(year=cur_time.year, month=cur_time.month, day=cur_time.day, user='veteran', mode='addFamZus'))
+            elif scall[1] == 'askKadrovik':
+                cur_time = datetime.datetime.now()
+                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                            text='Выберите дату', reply_markup=markup.selectDate(year=cur_time.year, month=cur_time.month, day=cur_time.day, user='veteran', mode=scall[1]))
+            elif scall[1] == 'taxMessage':
+                cur_time = datetime.datetime.now()
+                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                            text='Выберите дату', reply_markup=markup.selectDate(year=cur_time.year, month=cur_time.month, day=cur_time.day, user='veteran', mode=scall[1]))
             elif scall[1] == 'newbie':
                 ...
         elif scall[0] == 'admin':

@@ -14,8 +14,12 @@ class Inline():
                 telebot.types.InlineKeyboardButton(text='Заказать документы', callback_data='veteran_orderDocs'),
                 telebot.types.InlineKeyboardButton(text='Изменения в реестре', callback_data='veteran_changeRecords'),
                 telebot.types.InlineKeyboardButton(text='Регистрационные действия', callback_data='veteran_registryDeals'),
+                telebot.types.InlineKeyboardButton(text='ОФОРМИТЬ/УВОЛИТЬ СОТРУДНИКА', callback_data='veteran_hireEmployee'),
+                telebot.types.InlineKeyboardButton(text='ДОБАВИТЬ СЕМЬЮ В ЗУС', callback_data='veteran_addFamZus'),
+                telebot.types.InlineKeyboardButton(text='ЗАДАЙ ВОПРОС КАДРОВИКУ', callback_data='veteran_askKadrovik'),
+                telebot.types.InlineKeyboardButton(text='ПИСЬМО С НАЛОГОВОЙ', callback_data='veteran_taxMessage'),
                 telebot.types.InlineKeyboardButton(text='Написать менеджеру', url='https://t.me/bukhalterpoland'),
-                telebot.types.InlineKeyboardButton(text='Я новенький', callback_data='veteran_newbie'),
+                telebot.types.InlineKeyboardButton(text='Я новенький', url='https://t.me/novikliencivalery'),
             ]
 
         mainMenu = telebot.types.InlineKeyboardMarkup(row_width=1)
@@ -95,10 +99,40 @@ class Inline():
 
         return showDec
 
+    def showEmp(self, docList, page):
+        btns = []
+
+        for doc in docList:
+            btns.append(telebot.types.InlineKeyboardButton(text=doc[1], callback_data=f'veteran_showEmp_{doc[0]}_{page}'))
+
+        showDec = telebot.types.InlineKeyboardMarkup(row_width=1)
+        showDec.add(*btns)
+
+        if page == 0:
+            showDec.row(telebot.types.InlineKeyboardButton(text='🔙', callback_data=f'veteran_mainMenu'),
+                        telebot.types.InlineKeyboardButton(text='➡️', callback_data=f'veteran_showEmpPage_{page + 1}'))
+        else:
+            showDec.row(telebot.types.InlineKeyboardButton(text='⬅️', callback_data=f'veteran_showEmpPage_{page - 1}'),
+                        telebot.types.InlineKeyboardButton(text='➡️', callback_data=f'veteran_showEmpPage_{page + 1}'))
+            showDec.row(telebot.types.InlineKeyboardButton(text='🔙', callback_data=f'veteran_mainMenu'))
+
+        return showDec
+
     def decMenu(self, decID, page):
         btns = [
             telebot.types.InlineKeyboardButton(text='✅', callback_data=f'veteran_acceptDec_{decID}'),
             telebot.types.InlineKeyboardButton(text='🔙', callback_data=f'veteran_showDecPage_{page}')
+        ]
+
+        decMenu = telebot.types.InlineKeyboardMarkup(row_width=1)
+        decMenu.add(*btns)
+
+        return decMenu
+
+    def empMenu(self, decID, page):
+        btns = [
+            telebot.types.InlineKeyboardButton(text='✅', callback_data=f'veteran_acceptDec_{decID}'),
+            telebot.types.InlineKeyboardButton(text='🔙', callback_data=f'veteran_showEmpPage_{page}')
         ]
 
         decMenu = telebot.types.InlineKeyboardMarkup(row_width=1)
@@ -172,13 +206,24 @@ class Inline():
         btns = [
             telebot.types.InlineKeyboardButton(text='Отдел ЗУС', callback_data=f'admin_addoc_ZUS_{docID}'),
             telebot.types.InlineKeyboardButton(text='Отдел НАЛОГИ', callback_data=f'admin_addoc_taxes_{docID}'),
-            telebot.types.InlineKeyboardButton(text='ОФОРМИТЬ/УВОЛИТЬ СОТРУДНИКА', callback_data=f'admin_addoc_employer_{docID}')
+            telebot.types.InlineKeyboardButton(text='ОФОРМИТЬ/УВОЛИТЬ СОТРУДНИКА', callback_data=f'admin_addoc_employer_{docID}'),
         ]
 
         docTypes = telebot.types.InlineKeyboardMarkup(row_width=1)
         docTypes.add(*btns)
 
         return docTypes
+
+    def acceptTiming(self, scall):
+        btns = [
+            telebot.types.InlineKeyboardButton(text='✅', callback_data=f'{scall[0]}_accept_{scall[2]}_{scall[3]}_{scall[4]}_{scall[5]}_{scall[6]}_{scall[7]}'),
+            telebot.types.InlineKeyboardButton(text='🔙', callback_data=f'{scall[0]}_showHour_{scall[3].split(":")[0]}_{scall[4]}_{scall[5]}_{scall[6]}_{scall[7]}')
+        ]
+
+        acceptTiming = telebot.types.InlineKeyboardMarkup(row_width=1)
+        acceptTiming.add(*btns)
+
+        return acceptTiming
 
 
 class Reply():

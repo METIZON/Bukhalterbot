@@ -26,14 +26,14 @@ async def insert_values(name, chatid, *args, db='users'):
 async def insert_code(code):
     insert_db = sqlite3.connect(f'users.db')
     insert_bd = insert_db.cursor()
-    insert_bd.execute(f'''INSERT INTO codes(code) VALUES ({code})''')
+    insert_bd.execute('''INSERT INTO codes(code) VALUES (?)''', (code, ))
     insert_db.commit()
 
 
 async def insert_doc(docName):
     insert_db = sqlite3.connect(f'users.db')
     insert_bd = insert_db.cursor()
-    insert_bd.execute(f'''INSERT INTO documents(docName) VALUES ({docName})''')
+    insert_bd.execute('''INSERT INTO documents(docName) VALUES (?)''', (docName, ))
     insert_db.commit()
 
 
