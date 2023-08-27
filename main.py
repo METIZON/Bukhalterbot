@@ -318,8 +318,8 @@ async def query_handler(call):
                         }
                         created_event = gCalendar.create_event(new_event, config.V20OFFICE_calendar)
                         if created_event:
-                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                            await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id)
+                            await bot.send_message(call.message.chat.id, "Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
                         else:
                             await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
                     except Exception:
@@ -335,8 +335,8 @@ async def query_handler(call):
                         }
                         created_event = gCalendar.create_event(new_event, config.EDWARD_calendar)
                         if created_event:
-                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                            await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id)
+                            await bot.send_message(call.message.chat.id, "Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
                         else:
                             await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
                     except Exception:
@@ -352,8 +352,8 @@ async def query_handler(call):
                         }
                         created_event = gCalendar.create_event(new_event, config.EDWARD_calendar)
                         if created_event:
-                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                            await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id)
+                            await bot.send_message(call.message.chat.id, "Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
                         else:
                             await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
                     except Exception:
@@ -369,8 +369,8 @@ async def query_handler(call):
                         }
                         created_event = gCalendar.create_event(new_event, config.ZUS_calendar)
                         if created_event:
-                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                            await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id)
+                            await bot.send_message(call.message.chat.id, "Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
                         else:
                             await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
                     except Exception:
@@ -386,8 +386,8 @@ async def query_handler(call):
                         }
                         created_event = gCalendar.create_event(new_event, config.ZUS_calendar)
                         if created_event:
-                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                            await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id)
+                            await bot.send_message(call.message.chat.id, "Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
                         else:
                             await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
                     except Exception:
@@ -403,8 +403,8 @@ async def query_handler(call):
                         }
                         created_event = gCalendar.create_event(new_event, config.ZUS_calendar)
                         if created_event:
-                            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                                        text="Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
+                            await bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id)
+                            await bot.send_message(call.message.chat.id, "Ваш запрос отправлен на нашу почту! Ожидайте звонка менеджера", reply_markup=markup.mainMenu(role='veteran'))
                         else:
                             await bot.answer_callback_query(callback_query_id=call.id, text='Ууупс... Что-то пошло не так, попробуйте выбрать другое время!')
                     except Exception:

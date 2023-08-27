@@ -18,7 +18,7 @@ class Inline():
                 telebot.types.InlineKeyboardButton(text='ДОБАВИТЬ СЕМЬЮ В ЗУС', callback_data='veteran_addFamZus'),
                 telebot.types.InlineKeyboardButton(text='ЗАДАЙ ВОПРОС КАДРОВИКУ', callback_data='veteran_askKadrovik'),
                 telebot.types.InlineKeyboardButton(text='ПИСЬМО С НАЛОГОВОЙ', callback_data='veteran_taxMessage'),
-                telebot.types.InlineKeyboardButton(text='Написать менеджеру', url='https://t.me/bukhalterpoland'),
+                telebot.types.InlineKeyboardButton(text='Написать менеджеру', url='https://t.me/bukhaltermanager'),
                 telebot.types.InlineKeyboardButton(text='Я новенький', url='https://t.me/novikliencivalery'),
             ]
 
